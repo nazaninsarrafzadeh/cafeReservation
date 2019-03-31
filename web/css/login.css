@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Dosis:600,800');
+body{
+    background-image: url("../img/bg.jpeg");
+    background-size:cover;
+    font-family: 'Dosis',sans-serif;
+}
+h1{
+    text-shadow: 2px 2px #805518;
+    font-size: 380%;
+    color: white;
+}
+.logo{
+    margin-top: -110px;
+}
+.form-wrap{
+    margin-top: 30%;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 5px;
+    padding: 50px 30px 30px 30px;
+    box-shadow: 3px 3px white;
+}
+
+.form-group input{
+    border-radius: 5px;
+    background: none;
+    padding-left: 30px;
+    border-color: white;
+}
+i{
+    color: rgb(0, 0, 0);
+    position: absolute;
+    margin-top: 10px;
+    left: 55px;
+}
+.btn{
+    width: 100%;
+    background-color: rgb(180, 102, 19);
+    color: white;
+    border-radius: 5px;
+}
+.btn:hover{
+    background-color: #FFA33E;
+}
