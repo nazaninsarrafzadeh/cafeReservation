@@ -53,6 +53,21 @@ public class UserDAO {
             }
             return false;
     }
+
+    public int getCustomerId(String email){
+        int id=0;
+        try {
+            PreparedStatement statement=connection.prepareStatement("SELECT ID FROM users WHERE email=?");
+            statement.setString(1,email);
+            ResultSet set=statement.executeQuery();
+            if (set.next()){
+                id = set.getInt("ID");
+            }
+        } catch (SQLException e) {
+            System.out.println("could not select");
+        }
+        return id;
+    }
     public ArrayList<User> getRecords(){
         try {
             PreparedStatement statement=connection.prepareStatement("SELECT * FROM users");

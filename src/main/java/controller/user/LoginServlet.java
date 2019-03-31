@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import model.DAO.UserDAO;
 
@@ -25,9 +25,10 @@ public class LoginServlet extends HttpServlet {
 
         UserDAO dao=new UserDAO();
         if(dao.loginCheck(email,password)){
+            int customer_id = dao.getCustomerId(email);
             HttpSession session=request.getSession();
-            session.setAttribute("email",email);
-            request.getRequestDispatcher("index.jsp").forward(request,response);
+            session.setAttribute("customer_id",customer_id);
+            request.getRequestDispatcher("restaurantProf.jsp").forward(request,response);
         }
         else {
             PrintWriter writer=response.getWriter();

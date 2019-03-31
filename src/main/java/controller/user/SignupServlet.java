@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import model.DAO.UserDAO;
 import model.DTO.User;
@@ -31,8 +31,9 @@ public class SignupServlet extends HttpServlet {
         users.setPassword(password);
         UserDAO dao=new UserDAO();
         dao.insert(users);
+        int customer_id = dao.getCustomerId(email);
         HttpSession session=request.getSession();
-        session.setAttribute("email",email);
+        session.setAttribute("customer_id",customer_id);
         request.getRequestDispatcher("index.jsp").forward(request,response);
 
     }
