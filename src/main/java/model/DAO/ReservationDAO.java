@@ -18,7 +18,7 @@ public class ReservationDAO {
     public ReservationDAO(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation","root","");
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation?useUnicode=true&characterEncoding=UTF-8","root","");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,10 +27,11 @@ public class ReservationDAO {
     public void insertReservation(Reservation reservation){
         try {
             PreparedStatement statement=connection.prepareStatement
-                    ("INSERT INTO reservations (customer_id,date,num_of_people)  VALUES (?,?,?)");
+                    ("INSERT INTO reservations (customer_id,cafe_id,num_of_people,date)  VALUES (?,?,?,?)");
             statement.setInt(1,reservation.getCustomerId());
-            statement.setString(2,reservation.getDate());
+            statement.setInt(2,reservation.getCafeId());
             statement.setInt(3,reservation.getNumOfPeople());
+            statement.setString(4,reservation.getDate());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("not inserted");
