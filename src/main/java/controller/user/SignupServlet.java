@@ -31,11 +31,18 @@ public class SignupServlet extends HttpServlet {
         users.setName(name);
         users.setPassword(password);
         UserDAO dao=new UserDAO();
-        dao.insert(users);
-        int customer_id = dao.getCustomerId(email);
-        HttpSession session=request.getSession();
-        session.setAttribute("customer_id",customer_id);
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+        if (!dao.emailExists(email)){
+            dao.insert(users);
+            int customer_id = dao.getCustomerId(email);
+            HttpSession session=request.getSession();
+            session.setAttribute("customer_id",customer_id);
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+        }
+        else {
+            request.setAttribute("error","ایمیل وارد شده قبلا استفاده شده");
+            request.getRequestDispatcher("signup.jsp").include(request,response);
+        }
+
 
     }
 }

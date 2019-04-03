@@ -31,8 +31,8 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("/reservation").forward(request,response);
         }
         else {
-            PrintWriter writer=response.getWriter();
-            writer.print("اطلاعات وارد شده اشتباه است");
+
+            request.setAttribute("error","اطلاعات وارد شده اشتباه است");
             request.getRequestDispatcher("login.jsp").include(request,response);
         }
     }
