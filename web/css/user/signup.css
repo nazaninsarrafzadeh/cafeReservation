@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Dosis:600,800');
 body{
-    background-image: url("../img/bg.jpeg");
+    background-image: url("../../img/bg.jpeg");
     background-size:cover;
     font-family: 'Dosis',sans-serif;
 }
@@ -29,6 +29,7 @@ i{
 .form-group input{
     border-radius: 5px;
     background: none;
+    color: white;
     padding-left: 30px;
     border-color: white;
 }
