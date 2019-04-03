@@ -16,7 +16,7 @@ public class RestaurantDAO {
     public RestaurantDAO(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation","root","");
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation?useUnicode=true&characterEncoding=UTF-8","root","");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -25,16 +25,32 @@ public class RestaurantDAO {
     public void insertRestaurant(Restaurant restaurant){
         try {
             PreparedStatement statement=connection.prepareStatement
-                    ("INSERT INTO restaurants (name,address,email,description)  VALUES (?,?,?,?)");
+                    ("INSERT INTO restaurants (name,address,email,description,capacity,free)  VALUES (?,?,?,?,?,?)");
             statement.setString(1,restaurant.getName());
             statement.setString(2,restaurant.getAddress());
             statement.setString(3,restaurant.getEmail());
             statement.setString(4,restaurant.getDescription());
+            statement.setInt(5,restaurant.getCapacity());
+            statement.setInt(6,restaurant.getCapacity());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("not inserted");
             e.printStackTrace();
         }
+    }
+    public int selectCafeId(String email){
+        int id = 0;
+        try {
+            PreparedStatement statement=connection.prepareStatement("SELECT ID FROM restaurants WHERE email=?");
+            statement.setString(1,email);
+            ResultSet set=statement.executeQuery();
+            if(set.next()){
+                id = set.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("could not select");
+        }
+        return id;
     }
 
     public Restaurant selectRestaurantsById(int id){
@@ -48,6 +64,7 @@ public class RestaurantDAO {
                 restaurant.setAddress(set.getString("address"));
                 restaurant.setEmail(set.getString("email"));
                 restaurant.setDescription(set.getString("description"));
+                restaurant.setCapacity(set.getInt("capacity"));
             }
         } catch (SQLException e) {
             System.out.println("could not select");
@@ -61,21 +78,22 @@ public class RestaurantDAO {
             ResultSet set=statement.executeQuery();
             while (set.next()){
                 Restaurant restaurant = new Restaurant();
-           //     count++;
                 restaurant.setName(set.getString("name"));
                 restaurant.setAddress(set.getString("address"));
                 restaurant.setEmail(set.getString("email"));
                 restaurant.setDescription(set.getString("description"));
+                restaurant.setCapacity(set.getInt("capacity"));
                 records.add(restaurant);
             }
-           // System.out.println(count);
+
         } catch (SQLException e) {
             System.out.println("could not select");
         }
         return records;
     }
 
-    public void updateRestaurant(){
+    public void updateFreeCapacity(){
 
     }
+
 }

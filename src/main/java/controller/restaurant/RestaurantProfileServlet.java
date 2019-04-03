@@ -1,5 +1,6 @@
 package controller.restaurant;
 
+import model.DAO.CafeFileDAO;
 import model.DAO.RestaurantDAO;
 import model.DTO.Restaurant;
 
@@ -22,8 +23,9 @@ public class RestaurantProfileServlet extends HttpServlet {
 //        int id = request.getParameter("id");
         RestaurantDAO restaurantDAO = new RestaurantDAO();
         Restaurant restaurant = restaurantDAO.selectRestaurantsById(1);
+        CafeFileDAO cafeFileDAO = new CafeFileDAO();
+        restaurant.setImage(cafeFileDAO.selectImages(1));
         request.setAttribute("restaurant",restaurant);
-      //  System.out.println(restaurant.getEmail());
         request.getRequestDispatcher("restaurantProf.jsp").forward(request,response);
     }
 
