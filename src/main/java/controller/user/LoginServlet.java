@@ -28,11 +28,11 @@ public class LoginServlet extends HttpServlet {
             int customer_id = dao.getCustomerId(email);
             HttpSession session=request.getSession();
             session.setAttribute("customer_id",customer_id);
-            request.getRequestDispatcher("restaurantProf.jsp").forward(request,response);
+            request.getRequestDispatcher("/reservation").forward(request,response);
         }
         else {
             PrintWriter writer=response.getWriter();
-            writer.print("wrong info");
+            writer.print("اطلاعات وارد شده اشتباه است");
             request.getRequestDispatcher("login.jsp").include(request,response);
         }
     }
