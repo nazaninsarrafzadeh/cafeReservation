@@ -314,3 +314,131 @@ input[name="l"]{
 
 
 
+#searchbox{
+    width: 50%;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom:200px; 
+    font-family: 'Playfair Display', serif;
+}
+
+#searchbox input,button{
+    width: 75%;
+    border: 2px solid black;
+    border-right: 0px;
+    font-size:18px;
+    padding: 12px;
+    background: transparent;
+    color: black;
+
+}
+#searchbox button{
+    width: 25%;
+    background: rgb(165, 157, 157);
+    color: black;
+    float: right;
+    border-left: 0px;
+    
+}
+
+#searchbox button:hover{
+    opacity: 0.8;
+}
+
+#searchbox input:hover{
+    opacity: 0.8;
+}
+
+
+#search{
+    margin-top: 800px;
+    margin-left: 800px;
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+}
+
+
+
+
+footer{
+    font-family: "Roboto", sans-serif;
+    padding: 50px 0 0;
+    background: #070707;
+  padding-left: 60px;
+  color: white;
+  font-size: 20px;
+  
+}
+
+#sub-footer{
+    border-top: 1px solid #ddd;
+    background: rgb(75, 77, 77);
+}
+
+footer a{
+    color: white;
+
+}
+
+footer a:hover{
+    color:#444
+}
+footer h1, footer h2, footer h3,footer h4,footer h5{
+    color: rgb(241, 231, 231);
+    
+}
+
+footer address{
+    line-height: 1.6em;
+  
+}
+
+footer h5 a:hover , footer a:hover{
+    text-decoration: none;
+}
+ul.social-network{
+    list-style: none;
+    margin: 0;
+}
+
+
+.social-network{
+    list-style: none;
+
+}
+
+
+ul.social-network li{
+    display: inline;
+    margin: 0 5px;
+    list-style: none;
+}
+
+footer ul.social-network li i {
+    font-size: 20px;
+}
+#sub-footer{
+    text-shadow: none;
+    padding: 0;
+    padding-top: 30px;
+    margin: 20px 0 0 0;
+}
+#sub-footer p{
+    margin: 0;
+    padding: 0;
+}
+.copyright{
+    text-align: left;
+    font-size: 15px;
+}
+
+#sub-footer ul.social-networl{
+    float: right;
+}
+
+
+.link-list li{
+    color: #fff;
+}
+
+
