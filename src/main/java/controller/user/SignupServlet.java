@@ -1,5 +1,6 @@
 package controller.user;
 
+import controller.security.PasswordUtils;
 import model.DAO.UserDAO;
 import model.DTO.User;
 
@@ -25,11 +26,16 @@ public class SignupServlet extends HttpServlet {
         String email=request.getParameter("email");
         String password=request.getParameter("pass");
 
+        String salt = PasswordUtils.getSalt(30);
+        String hashedPassword = PasswordUtils.generateSecurePassword(password, salt);
+
         User users=new User();
         users.setEmail(email);
         users.setLastname(lastname);
         users.setName(name);
-        users.setPassword(password);
+        users.setPassword(hashedPassword);
+        users.setSalt(salt);
+
         UserDAO dao=new UserDAO();
         if (!dao.emailExists(email)){
             dao.insert(users);

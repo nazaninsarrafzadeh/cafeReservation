@@ -1,6 +1,7 @@
 package model.DAO;
 
 
+import controller.security.PasswordUtils;
 import model.DTO.User;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ public class UserDAO {
     public UserDAO(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation","root","");
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation?useUnicode=true&characterEncoding=UTF-8","root","");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,32 +28,68 @@ public class UserDAO {
     public void insert(User users){
         try {
             PreparedStatement statement=connection.prepareStatement
-                    ("INSERT INTO users (name,lastname,password,email)  VALUES (?,?,?,?)");
+                    ("INSERT INTO users (name,lastname,email,password,salt)  VALUES (?,?,?,?,?)");
             statement.setString(1,users.getName());
             statement.setString(2,users.getLastname());
-            statement.setString(3,users.getPassword());
-            statement.setString(4,users.getEmail());
+            statement.setString(3,users.getEmail());
+            statement.setString(4,users.getPassword());
+            statement.setString(5,users.getSalt());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("not inserted");
             e.printStackTrace();
         }
     }
-    public boolean loginCheck(String email,String password){
 
-            try {
-                PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE email=? AND password=?");
+    public boolean emailExists(String email){
+        try {
+            PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE email=?");
+            statement.setString(1,email);
+            ResultSet set=statement.executeQuery();
+            if (set.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("could not select");
+        }
+        return false;
+    }
+
+    public boolean loginCheck(String email,String userPass){
+        try {
+                PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE email=?");
                 statement.setString(1,email);
-                statement.setString(2,password);
                 ResultSet set=statement.executeQuery();
                 if (set.next()){
-                    return true;
+                    String password = set.getString("password");
+                    String salt = set.getString("salt");
+                    boolean passwordMatch = PasswordUtils.verifyUserPassword(userPass, password, salt);
+
+                    if(passwordMatch)
+                    {
+                        return true;
+                    }
                 }
             } catch (SQLException e) {
                 System.out.println("could not select");
             }
             return false;
     }
+//    public boolean loginCheck(String email,String password){
+//
+//            try {
+//                PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE email=? AND password=?");
+//                statement.setString(1,email);
+//                statement.setString(2,password);
+//                ResultSet set=statement.executeQuery();
+//                if (set.next()){
+//                    return true;
+//                }
+//            } catch (SQLException e) {
+//                System.out.println("could not select");
+//            }
+//            return false;
+//    }
 
     public int getCustomerId(String email){
         int id=0;
@@ -68,6 +105,7 @@ public class UserDAO {
         }
         return id;
     }
+
     public ArrayList<User> getRecords(){
         try {
             PreparedStatement statement=connection.prepareStatement("SELECT * FROM users");
