@@ -35,7 +35,7 @@
 
 
         <div class="summery">
-            <form class="username" action="editUserName" method="post">
+            <form class="username" action="EditName" method="post">
                 <div >
                     <input type="text" name="username" class="form-control" placeholder="username">
                     <button type="submit">OK</button>
@@ -45,7 +45,7 @@
         </div>
 
         <ul>
-            <form class="username" action="editbio" method="post">
+            <form class="username" action="EditBio" method="post">
                 <div >
                     <input type="text" name="bio" class="form-control" placeholder="bio">
                     <button type="submit">OK</button>
@@ -69,9 +69,9 @@
         <div class="row">
             <div class="post ">
                 <img src="img/post1.jpg">
-                <form class="desc" action="editbio" method="post">
+                <form class="desc" action="editCaption" method="post">
                     <div >
-                        <input type="text" name="bio" class="form-control" placeholder="caption">
+                        <input type="text" name="caption" class="form-control" placeholder="caption">
                         <button type="submit">OK</button>
                     </div>
                 </form>
@@ -82,9 +82,9 @@
             <div class="post resize2">
                 <img src="img/post2.jpg">
 
-                <form class="desc" action="editbio" method="post">
+                <form class="desc" action="editCaption" method="post">
                     <div >
-                        <input type="text" name="bio" class="form-control" placeholder="caption">
+                        <input type="text" name="caption" class="form-control" placeholder="caption">
                         <button type="submit">OK</button>
                     </div>
                 </form>
@@ -94,9 +94,9 @@
             <div class="post resize2">
                 <img src="img/post3.jpg">
 
-                <form class="desc" action="editbio" method="post">
+                <form class="desc" action="editCaption" method="post">
                     <div >
-                        <input type="text" name="bio" class="form-control" placeholder="caption">
+                        <input type="text" name="caption" class="form-control" placeholder="caption">
                         <button type="submit">OK</button>
                     </div>
                 </form>
@@ -106,9 +106,9 @@
         <div class="row">
             <div class="post resize2">
                 <img src="img/post4.jpg">
-                <form class="desc" action="editbio" method="post">
+                <form class="desc" action="editCaption" method="post">
                     <div >
-                        <input type="text" name="bio" class="form-control" placeholder="caption">
+                        <input type="text" name="caption" class="form-control" placeholder="caption">
                         <button type="submit">OK</button>
                     </div>
                 </form>
@@ -117,9 +117,9 @@
 
             <div class="post resize2">
                 <img src="img/post1.jpg">
-                <form class="desc" action="editbio" method="post">
+                <form class="desc" action="editCaption" method="post">
                     <div >
-                        <input type="text" name="bio" class="form-control" placeholder="caption">
+                        <input type="text" name="caption" class="form-control" placeholder="caption">
                         <button type="submit">OK</button>
                     </div>
                 </form>
@@ -129,9 +129,9 @@
 
             <div class="post resize2">
                 <img src="img/post2.jpg">
-                <form class="desc" action="editbio" method="post">
+                <form class="desc" action="editCaption" method="post">
                     <div >
-                        <input type="text" name="bio" class="form-control" placeholder="caption">
+                        <input type="text" name="caption" class="form-control" placeholder="caption">
                         <button type="submit">OK</button>
                     </div>
                 </form>
