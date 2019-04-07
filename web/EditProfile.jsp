@@ -21,36 +21,33 @@
 </head>
 
 <body>
+<form action="editProf" method="post">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <div class="profile-container">
     <div class="profile-menu ">
         <div class="image-container ">
-            <form  action="editpic" method="post">
-            <img id="profpic" class="resize profile-img" src="img/prof.png" alt="">
 
-                    <button type="submit">edit</button>
-            </form>
+            <img id="profpic" class="resize profile-img" src="img/prof.png" alt="">
+            <input type="file" name="file" class="form-control">
 
         </div>
 
 
         <div class="summery">
-            <form class="username" action="EditName" method="post">
+
                 <div >
-                    <input type="text" name="username" class="form-control" placeholder="username">
-                    <button type="submit">OK</button>
+                    <input type="text" name="name" class="form-control" placeholder="name"><input type="text" name="lastname" class="form-control" placeholder="last name">
                 </div>
-            </form>
+
 
         </div>
 
         <ul>
-            <form class="username" action="EditBio" method="post">
+
                 <div >
                     <input type="text" name="bio" class="form-control" placeholder="bio">
-                    <button type="submit">OK</button>
                 </div>
-            </form>
+            <li class="active list"><button type="submit">Edit</button></li>
             <li class="active list" onclick=""> My Posts</li>
             <li onclick="Done()">Done</li>
             <li>logOut from your account</li>
@@ -141,6 +138,7 @@
     </div>
 </div>
 
+</form>
 <script>
     function Edit() {
         document.getElementById("profpic").src = img/prof2.png;
@@ -151,5 +149,4 @@
     }
 
 </script>
-
 </body>
