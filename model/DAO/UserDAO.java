@@ -37,17 +37,7 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
-    public void EditBio(int uid,User user){
-        try {
-            PreparedStatement statement=connection.prepareStatement
-                    ("UPDATE users SET bio=user.bio  WHERE id=?");
-            statement.setInt(1,uid);
-            statement.execute();
-        } catch (SQLException e) {
-            System.out.println("something went wrong!");
-            e.printStackTrace();
-        }
-    }
+
     public boolean loginCheck(String email,String password){
 
         try {
@@ -64,13 +54,17 @@ public class UserDAO {
         return false;
     }
 
-    public void update(User user, int uid,String into){
+   public void update(User user){
         try {
             PreparedStatement statement=connection.prepareStatement
-                    ("UPDATE users SET ? = ? WHERE uid = ?");
-            statement.setString(1,into);
-            statement.setString(2,user.getName());
-            statement.setInt(3,uid);
+                    ("UPDATE users SET name=?,lastname=?,email=?,image_path=?,filename=?,bio=? WHERE id = ?");
+            statement.setString(1,user.getName());
+            statement.setString(2,user.getLastname());
+            statement.setString(3,user.getEmail());
+            statement.setString(4,user.getImagePath());
+            statement.setString(5,user.getImageName());
+            statement.setInt(6,user.getId());
+            statement.setString(7,user.getBio());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("couldn't update!!!");
