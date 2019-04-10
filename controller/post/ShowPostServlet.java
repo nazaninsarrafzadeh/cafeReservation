@@ -41,11 +41,20 @@ public class ShowPostServlet extends HttpServlet {
             if(counter==1){out.println("<div class=\"row\">");}
             out.print("<div class=\"post resize2\"><img src=img/user/");
             out.println(posts.get(i).getPic()+'>');
+            out.print("<span>");
+            out.print(posts.get(i).getDate());
+            out.print("</span>");
             out.print("<div class=\"desc\">");
             out.print(posts.get(i).getCaption());
             out.print("</div>");
             out.print("</div>");
-            //out.print("<form action=\"editCaption\" method=\"get\"><input type=\"text\" name=\"post\"></input></form>");
+            //out.print("<form action=\"editCaption\" method=\"post\"><input type=\"text\" name=\"post\"></input></form>");
+            out.print("<button id=\"editCaption\" type=\"submit\"></button>");
+            out.print("<button id=\"like\" type=\"submit\"></button><span>");
+            out.print(posts.get(i).getLikes());
+            out.print("</span>");
+
+
             if(counter==3){out.println("</div>");counter=0;}
         }
         if(counter != 0 && numOfPosts != 0)out.println("</div>");
