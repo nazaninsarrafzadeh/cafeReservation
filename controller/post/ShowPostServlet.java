@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
-/**
- * Created by Alieyeh on 4/6/19.
- */
-@WebServlet(name = "ShowPostServlet")
+
+@WebServlet("/ShowPost")
 public class ShowPostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -28,6 +27,9 @@ public class ShowPostServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request,response);
         }
         else {
+            response.setContentType("text/html");
+            PrintWriter out = response.getWriter();
+
             int uid = Integer.parseInt(String.valueOf(session.getAttribute("customer_id")));
             int counter=0;
             PostDAO pdao=new PostDAO();
@@ -35,14 +37,14 @@ public class ShowPostServlet extends HttpServlet {
             posts=pdao.getPosts(uid);
         for (int i = 0; i < pdao.getNumOfPosts(uid); i++) {
             counter++;
-            if(counter==1){System.out.println("<div class=\"row\">");}
-            System.out.print("<div class=\"post resize2\"><img src=");
-            System.out.println(posts.get(i).getPic()+'>');
-            System.out.print("<div class=\"desc\">");
-            System.out.print(posts.get(i).getCaption());
-            System.out.print("</div>");
-            System.out.print("</div>");
-            if(counter==3){System.out.println("</div>");counter=0;}
+            if(counter==1){out.println("<div class=\"row\">");}
+            out.print("<div class=\"post resize2\"><img src=img/user/");
+            out.println(posts.get(i).getPic()+'>');
+            out.print("<div class=\"desc\">");
+            out.print(posts.get(i).getCaption());
+            out.print("</div>");
+            out.print("</div>");
+            if(counter==3){out.println("</div>");counter=0;}
         }
     }
     }
