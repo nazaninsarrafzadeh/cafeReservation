@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Alieyeh
-  Date: 4/3/19
-  Time: 12:04 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="model.DAO.UserDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -18,7 +12,10 @@
 
 
 </head>
-
+    <%
+    HttpSession session1 = request.getSession();
+    UserDAO dao = new UserDAO();
+%>
 <body>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <div class="profile-container">
@@ -34,11 +31,16 @@
                 <p>@USERNAME</p>
             </div>
             <button class="content" type="button">
-                <span>235</span>
+               <span>
+                   <%= dao.calculateFollowers((Integer) session1.getAttribute("customer_id"))%>
+                   //
+               </span>
                 <span>follower</span>
             </button>
             <button class="content" type="Button">
-                <span>333</span>
+                <span>
+                     <%= dao.calculateFollowing((Integer) session1.getAttribute("customer_id"))%>
+                </span>
                 <span>following</span>
             </button>
 
@@ -66,48 +68,7 @@
 
         </div>
 
-        <div class="row">
-            <div class="post ">
-                <img src="img/post1.jpg">
-
-                <div class="desc">gfgfgfgfgfgfgfgf </div>
-            </div>
-
-
-
-            <div class="post resize2">
-                <img src="img/post2.jpg">
-
-                <div class="desc ">gfgfgfgfgfgfgfgf </div>
-            </div>
-
-
-            <div class="post resize2">
-                <img src="img/post3.jpg">
-
-                <div class="desc">gfgfgfgfgfgfgfgf </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="post resize2">
-                <img src="img/post4.jpg">
-                <div class="desc">gfgfgfgfgfgfgfgf </div>
-            </div>
-
-
-            <div class="post resize2">
-                <img src="img/post1.jpg">
-                <div class="desc">gfgfgfgfgfgfgfgf </div>
-            </div>
-
-
-
-            <div class="post resize2">
-                <img src="img/post2.jpg">
-                <div class="desc">gfgfgfgfgfgfgfgf </div>
-            </div>
-        </div>
+        <form action="ShowPost" method="get"></form>
 
         <form action="editCaption" method="get">
             <input type="text" name="post"></input>
