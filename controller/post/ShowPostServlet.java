@@ -31,11 +31,12 @@ public class ShowPostServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             int uid = Integer.parseInt(String.valueOf(session.getAttribute("customer_id")));
-            int counter=0;
-            PostDAO pdao=new PostDAO();
+            int counter = 0;
+            PostDAO pdao = new PostDAO();
             ArrayList<Post> posts;
-            posts=pdao.getPosts(uid);
-        for (int i = 0; i < pdao.getNumOfPosts(uid); i++) {
+            posts = pdao.getPosts(uid);
+            int numOfPosts = pdao.getNumOfPosts(uid);
+        for (int i = 0; i < numOfPosts; i++) {
             counter++;
             if(counter==1){out.println("<div class=\"row\">");}
             out.print("<div class=\"post resize2\"><img src=img/user/");
@@ -44,8 +45,10 @@ public class ShowPostServlet extends HttpServlet {
             out.print(posts.get(i).getCaption());
             out.print("</div>");
             out.print("</div>");
+            //out.print("<form action=\"editCaption\" method=\"get\"><input type=\"text\" name=\"post\"></input></form>");
             if(counter==3){out.println("</div>");counter=0;}
         }
+        if(counter != 0 && numOfPosts != 0)out.println("</div>");
     }
     }
 }
