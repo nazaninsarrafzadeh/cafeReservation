@@ -20,11 +20,10 @@ public class PostDAO {
     public void insert(Post post){
         try {
             PreparedStatement statement=connection.prepareStatement
-                    ("INSERT INTO Posts (uid,pic,caption,likes)  VALUES (?,?,?,?)");
+                    ("INSERT INTO Posts (uid,caption,pic)  VALUES (?,?,?)");
             statement.setInt(1,post.getCustomerId());
-            statement.setString(1,post.getPic());
-            statement.setString(2,post.getCaption());
-            statement.setInt(3,post.getLikes());
+            statement.setString(2,post.getPic());
+            statement.setString(3,post.getCaption());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("not inserted");
