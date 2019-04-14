@@ -12,7 +12,7 @@ public class PostDAO {
     public PostDAO(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/reservation", "root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/caferes?useUnicode=true&characterEncoding=UTF-8", "root", "root");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -20,10 +20,11 @@ public class PostDAO {
     public void insert(Post post){
         try {
             PreparedStatement statement=connection.prepareStatement
-                    ("INSERT INTO Posts (uid,caption,pic)  VALUES (?,?,?)");
+                    ("INSERT INTO Post (uid,caption,pic,picPath)  VALUES (?,?,?,?)");
             statement.setInt(1,post.getCustomerId());
-            statement.setString(2,post.getPic());
-            statement.setString(3,post.getCaption());
+            statement.setString(2,post.getCaption());
+            statement.setString(3,post.getPic());
+            statement.setString(4,post.getPicPath());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("not inserted");
@@ -44,63 +45,61 @@ public class PostDAO {
         }
     }
 
-   public ArrayList<Post> getPosts(int uid){
+    public ArrayList<Post> getPosts(int uid){
         ArrayList<Post> posts=new ArrayList<Post>();
-       try {
-           PreparedStatement statement=connection.prepareStatement("SELECT * FROM posts WHERE uid=?");
-           statement.setInt(1,uid);
-           ResultSet set=statement.executeQuery();
-           while (set.next()){
-               Post post=new Post(uid);
-               count++;
-               post.setCaption(set.getString("caption"));
-               post.setPic(set.getString("pic"));
-               post.setDate("cdate");
-               post.setPid(set.getInt("pid"));
-               post.setLikes(getNumOfLikes(post.getPid()));
-               //post.setComments(getComments(post.getPid()));
-               posts.add(post);
-           }
-           System.out.println(count);
-       } catch (SQLException e) {
-           System.out.println("could not get posts");
-       }
-        return posts;
-    }
-
-    public int getNumOfPosts(int uid){
-        int posts=0;
-        try{
-            PreparedStatement statement=connection.prepareStatement("select COUNT(uid) from post where uid=? GROUP BY uid");
+        try {
+            PreparedStatement statement=connection.prepareStatement("SELECT * FROM post WHERE uid=?");
             statement.setInt(1,uid);
             ResultSet set=statement.executeQuery();
-            if (set.next()){
-                posts = set.getInt("count");
+            while (set.next()){
+                Post post=new Post(uid);
+                count++;
+                post.setCaption(set.getString("caption"));
+                post.setPic(set.getString("pic"));
+                post.setDate(set.getString("cdate"));
+                post.setPid(set.getInt("pid"));
+                post.setLikes(getNumOfLikes(post.getPid()));
+                //post.setComments(getComments(post.getPid()));
+                posts.add(post);
             }
-
-        }catch (SQLException e){
-            System.out.println("can't calculate");
+            System.out.println(count);
+        } catch (SQLException e) {
+            System.out.println("could not get posts");
         }
         return posts;
     }
+
     public int getNumOfLikes(int pid){
         int posts=0;
         try{
-            PreparedStatement statement=connection.prepareStatement("select COUNT(pid) from likeP where pid=? GROUP BY pid");
+            PreparedStatement statement=connection.prepareStatement("select COUNT(pid) AS likes from likeP where pid=?");
             statement.setInt(1,pid);
             ResultSet set=statement.executeQuery();
             if (set.next()){
-                posts = set.getInt("count");
+                posts = set.getInt("likes");
             }
 
         }catch (SQLException e){
-            System.out.println("can't calculate");
+            e.printStackTrace();
         }
         return posts;
     }
     public ArrayList<String> getComments(int pid){
         ArrayList<String> comments=new ArrayList<String>();
         return comments;
+    }
+    public void like(int uid, int pid){
+        try {
+            PreparedStatement statement=connection.prepareStatement
+                    ("INSERT INTO likeP (pid, uid)  VALUES (?,?)");
+            statement.setInt(1,pid);
+            statement.setInt(2,uid);
+            statement.execute();
+
+        } catch (SQLException e) {
+            System.out.println("not liked");
+            e.printStackTrace();
+        }
     }
 
 }
