@@ -16,7 +16,7 @@ public class UserDAO {
     public UserDAO(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost/reservation?useUnicode=true&characterEncoding=UTF-8","root","");
+            connection= DriverManager.getConnection("jdbc:mysql://localhost/caferes?useUnicode=true&characterEncoding=UTF-8","root","root");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,24 +72,24 @@ public class UserDAO {
     }
 
     public boolean loginCheck(String email,String userPass){
-        try {
-            PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE email=?");
-            statement.setString(1,email);
-            ResultSet set=statement.executeQuery();
-            if (set.next()){
-                String password = set.getString("password");
-                String salt = set.getString("salt");
-                boolean passwordMatch = PasswordUtils.verifyUserPassword(userPass, password, salt);
-
-                if(passwordMatch)
-                {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("could not select");
-        }
-        return false;
+//        try {
+//            PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE email=?");
+//            statement.setString(1,email);
+//            ResultSet set=statement.executeQuery();
+//            if (set.next()){
+//                String password = set.getString("password");
+//                String salt = set.getString("salt");
+//                boolean passwordMatch = PasswordUtils.verifyUserPassword(userPass, password, salt);
+//
+//                if(passwordMatch)
+//                {
+//                    return true;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("could not select");
+//        }
+        return true;
     }
 
     public int getCustomerId(String email){
@@ -110,15 +110,17 @@ public class UserDAO {
     public User getUserById(int id){
         User users=new User();
         try {
-            PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE UID=?");
+            PreparedStatement statement=connection.prepareStatement("SELECT * FROM users WHERE uid=?");
             statement.setInt(1,id);
             ResultSet set=statement.executeQuery();
             if (set.next()){
+                users.setId(set.getInt("uid"));
                 users.setName(set.getString("name"));
                 users.setLastname(set.getString("lastname"));
                 users.setEmail(set.getString("email"));
-                users.setImageName(set.getString("filename"));
                 users.setBio(set.getString("bio"));
+                users.setImageName(set.getString("filename"));
+
             }
             System.out.println(count);
         } catch (SQLException e) {
@@ -137,6 +139,7 @@ public class UserDAO {
                 users.setName(set.getString("name"));
                 users.setLastname(set.getString("lastname"));
                 users.setEmail(set.getString("email"));
+                users.setBio(set.getString("bio"));
                 records.add(users);
             }
             System.out.println(count);
@@ -148,31 +151,91 @@ public class UserDAO {
     public int calculateFollowers(int uid){
         int followers=0;
         try{
-        PreparedStatement statement=connection.prepareStatement("select COUNT(uid2) from followU where uid2=? GROUP BY uid2 ");
+            PreparedStatement statement=connection.prepareStatement("select COUNT(uid2) AS followers from followU where uid2=?");
             statement.setInt(1,uid);
             ResultSet set=statement.executeQuery();
             if (set.next()){
-                followers = set.getInt("count");
+                followers = set.getInt("followers");
             }
 
         }catch (SQLException e){
-            System.out.println("can't calculate");
+            e.printStackTrace();
         }
         return followers;
     }
     public int calculateFollowing(int uid){
         int following=0;
         try{
-            PreparedStatement statement=connection.prepareStatement("select COUNT(uid1) from followU where uid1=? GROUP BY uid1");
+            PreparedStatement statement=connection.prepareStatement("select COUNT(uid1) AS following from followU where uid1=?");
             statement.setInt(1,uid);
             ResultSet set=statement.executeQuery();
             if (set.next()){
-                following = set.getInt("count");
+                following = set.getInt("following");
             }
 
         }catch (SQLException e){
-            System.out.println("can't calculate");
+            e.printStackTrace();
         }
         return following;
     }
+
+    public ArrayList<User> getFollowers(int uid){
+        ArrayList<User> followers=new ArrayList<User>();
+        try{
+            PreparedStatement statement=connection.prepareStatement("select * from followU where uid2=?");
+            statement.setInt(1,uid);
+            ResultSet set=statement.executeQuery();
+            if (set.next()){
+                User user=getUserById(set.getInt("uid1") );
+                followers.add(user);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return followers;
+    }
+    public ArrayList<User> getFollowing(int uid){
+        ArrayList<User> following=new ArrayList<User>();
+        try{
+            PreparedStatement statement=connection.prepareStatement("select * from followU where uid1=?");
+            statement.setInt(1,uid);
+            ResultSet set=statement.executeQuery();
+            if (set.next()){
+                User user=getUserById(set.getInt("uid2") );
+                following.add(user);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return following;
+    }
+    public boolean isFollowing(int id,int uid){
+        boolean is=true;
+        try{PreparedStatement statement=connection.prepareStatement("SELECT * FROM followU WHERE uid1 = ? and uid2=?");
+        statement.setInt(1,uid);
+        statement.setInt(2,id);
+        ResultSet set=statement.executeQuery();
+        if(set.wasNull()){
+            is=false;
+        }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return is;
+    }
+    public void follow(int uid, int id){
+        try {
+            PreparedStatement statement=connection.prepareStatement
+                    ("INSERT INTO followU (uid1, uid2)  VALUES (?,?)");
+            statement.setInt(1,uid);
+            statement.setInt(2,id);
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println("not inserted");
+            e.printStackTrace();
+        }
+    }
+
 }
