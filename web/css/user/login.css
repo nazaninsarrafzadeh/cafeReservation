@@ -1,8 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Dosis:600,800');
+@font-face {
+    font-family: B yekan;
+    src: url('/fonts/BYekan.ttf') format('ttf')
+}
 body{
+    font-family: "B yekan";
     background-image: url("../../img/bg.jpeg");
     background-size:cover;
-    font-family: 'Dosis',sans-serif;
 }
 h1{
     text-shadow: 2px 2px #805518;
@@ -24,14 +27,21 @@ h1{
     border-radius: 5px;
     background: none;
     color: white;
-    padding-left: 30px;
+    padding-right: 30px;
     border-color: white;
+    text-align: right;
+    direction: rtl;
 }
 i{
     color: rgb(0, 0, 0);
     position: absolute;
     margin-top: 10px;
-    left: 55px;
+    float: right;
+    right: 55px;
+}
+a{
+    color: white;
+    margin-bottom: 10px;
 }
 .btn{
     width: 100%;
