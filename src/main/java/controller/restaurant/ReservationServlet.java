@@ -23,20 +23,35 @@ import java.io.IOException;
  */
 @WebServlet("/reservation")
 public class ReservationServlet extends HttpServlet {
+    private int success =0;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control","no-cache,no-store");
         HttpSession session = request.getSession();
         HttpSession reservationSession = request.getSession();
         Reservation reservation = (Reservation) reservationSession.getAttribute("reservation");
         int customerId = Integer.parseInt(String.valueOf(session.getAttribute("customer_id")));
         reservation.setCustomerId(customerId);
+        RestaurantDAO restaurantDAO = new RestaurantDAO();
+        Restaurant restaurant = restaurantDAO.selectRestaurantsById(reservation.getCafeId());
+        CafeFileDAO cdao = new CafeFileDAO();
+        restaurant.setImage(cdao.selectImages(reservation.getCafeId()));
+        HttpSession session1 = request.getSession();
+        session1.setAttribute("restaurant",restaurant);
+        request.setAttribute("restaurant",restaurant);
 
         ReservationDAO reservationDAO = new ReservationDAO();
+        HttpSession prgSes = request.getSession();
+
         if (!reservationDAO.alreadyReserved(reservation.getDate(),reservation.getCafeId())){
-            reservationDAO.insertReservation(reservation);
+            int row = reservationDAO.insertReservation(reservation);
+            if(row >0){
+                success = 1;
+
+            }
             UserDAO dao = new UserDAO();
             User user = dao.getUserById(customerId);
             String to = user.getEmail();
@@ -44,17 +59,16 @@ public class ReservationServlet extends HttpServlet {
             String msg = "رزرو شما برای تاریخ "+reservation.getDate()+"\n"+" در کافه "+reservationDAO.getCafeNameById(reservation.getCafeId())+"\n"+"باموفقیت ثبت شد";
             Mailer.sendEmail(MailCredentials.from,MailCredentials.username,MailCredentials.pass,
                     to,sub,msg );
+            prgSes.setAttribute("crushed","***رزرو شما با موفقیت ثبت شد***");
+//            request.setAttribute("crushed","***رزرو شما با موفقیت ثبت شد***");
+//            request.getRequestDispatcher("restaurantProf.jsp").include(request,response);
         }
         else {
-            System.out.println("bilakh");
-            RestaurantDAO restaurantDAO = new RestaurantDAO();
-            Restaurant restaurant = restaurantDAO.selectRestaurantsById(reservation.getCafeId());
-            CafeFileDAO dao = new CafeFileDAO();
-            restaurant.setImage(dao.selectImages(reservation.getCafeId()));
-            request.setAttribute("restaurant",restaurant);
-            request.setAttribute("error","***رزرو در این تاریخ قبلا ثبت شده است***");
-            request.getRequestDispatcher("restaurantProf.jsp").include(request,response);
+            prgSes.setAttribute("error","***رزرو در این تاریخ قبلا ثبت شده است***");
+//            request.setAttribute("error","***رزرو در این تاریخ قبلا ثبت شده است***");
+//            request.getRequestDispatcher("restaurantProf.jsp").include(request,response);
         }
+        response.sendRedirect("/ReservePRG?s="+success);
 
     }
 }
