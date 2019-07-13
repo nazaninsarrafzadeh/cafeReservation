@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by Alieyeh on 7/12/19.
  */
-@WebServlet(name = "/Search")
+@WebServlet("/Search")
 public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -32,6 +32,7 @@ public class SearchServlet extends HttpServlet {
             RestaurantDAO rdao=new RestaurantDAO();
 
             ArrayList<Restaurant> restaurants = rdao.nameSearch(name);
+            System.out.println("  resssss  "+restaurants.size());
             CafeFileDAO dao = new CafeFileDAO();
             for (Restaurant res: restaurants) {
                 res.setImage(dao.selectImages(res.getId()));
