@@ -1,152 +1,77 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Alieyeh
-  Date: 4/3/19
-  Time: 12:49 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="model.DAO.UserDAO" %>
+<%@ page import="model.DTO.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
-
+<%
+    HttpSession session1 = request.getSession();
+    UserDAO dao = new UserDAO();
+    User user = dao.getUserById((Integer) session1.getAttribute("customer_id"));
+%>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="css/cssUserP.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>editProfile</title>
-
-
+    <link rel="stylesheet" href="assets1/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="assets1/css/Header-Dark.css">
+    <link rel="stylesheet" href="assets1/css/Profile-Edit-Form-1.css">
+    <link rel="stylesheet" href="assets1/css/Profile-Edit-Form.css">
+    <link rel="stylesheet" href="assets1/css/styles.css">
 </head>
 
 <body>
-<form action="editProf" method="post">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-<div class="profile-container">
-    <div class="profile-menu ">
-        <div class="image-container ">
-
-            <img id="profpic" class="resize profile-img" src="img/prof.png" alt="">
-            <input type="file" name="file" class="form-control">
-
-        </div>
-
-
-        <div class="summery">
-
-                <div >
-                    <input type="text" name="name" class="form-control" placeholder="name"><input type="text" name="lastname" class="form-control" placeholder="last name">
+    <div>
+        <div class="header-dark" style="background-image: url(&quot;assets1/img/toa-heftiba-274947-unsplash.jpg&quot;);">
+            <div class="container hero">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <h1 class="text-center">Edit your profile</h1>
+                    </div>
                 </div>
-
-
+            </div>
         </div>
-
-        <ul>
-
-                <div >
-                    <input type="text" name="bio" class="form-control" placeholder="bio">
-                </div>
-            <li class="active list"><button type="submit">Edit</button></li>
-            <li class="active list" onclick=""> My Posts</li>
-            <li onclick="Done()">Done</li>
-            <li>logOut from your account</li>
-
-        </ul>
     </div>
-    <div class="profile-content">
-        <div class="actions">
-            <i class=" fas fa-3x fa-bell"></i>
-            <i class="fas fa-3x fa-cogs "></i>
-            <div class="pic">
-            </div>
+    <div class="container profile profile-view" id="profile">
+        <form action="editProf" method="post" enctype="multipart/form-data">
+            <div class="form-row profile-row">
+                <div class="col-md-4 relative">
+                    <div class="avatar">
+                        <div class="avatar-bg center"></div>
+                        <%--value="img/user/<%= user.getImage()%>"--%>
+                    </div><input type="file" class="form-control" name="file" ></div>
 
-        </div>
+                <div class="col-md-8">
+                    <h1>Edit Profile </h1>
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-sm-12 col-md-6">
 
-        <div class="row">
-            <div class="post ">
-                <img src="img/post1.jpg">
-                <form class="desc" action="editCaption" method="post">
-                    <div >
-                        <input type="text" name="caption" class="form-control" placeholder="caption">
-                        <button type="submit">OK</button>
+                            <div class="form-group"><label>Name</label> <input type="text" name="name" class="form-control" value="<%= user.getName()%>"></div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group"><label>LastName</label><input type="text" name="lastname" class="form-control" value="<%= user.getLastname()%>"></div>
+                        </div>
                     </div>
-                </form>
-            </div>
+                    <div class="form-group"><label>Bio</label><input type="text" name="bio" class="form-control" value="<%= user.getBio()%>"  autocomplete="off" required="" ></div>
+                    <div class="form-row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group"><label>Email </label><input type="email" name="email" class="form-control" value="<%= user.getEmail()%>"  autocomplete="off" required=""></div>
+                        </div>
 
-
-
-            <div class="post resize2">
-                <img src="img/post2.jpg">
-
-                <form class="desc" action="editCaption" method="post">
-                    <div >
-                        <input type="text" name="caption" class="form-control" placeholder="caption">
-                        <button type="submit">OK</button>
                     </div>
-                </form>
-            </div>
-
-
-            <div class="post resize2">
-                <img src="img/post3.jpg">
-
-                <form class="desc" action="editCaption" method="post">
-                    <div >
-                        <input type="text" name="caption" class="form-control" placeholder="caption">
-                        <button type="submit">OK</button>
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-12 content-right"><button class="btn" type="submit">ویرایش</button></div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="post resize2">
-                <img src="img/post4.jpg">
-                <form class="desc" action="editCaption" method="post">
-                    <div >
-                        <input type="text" name="caption" class="form-control" placeholder="caption">
-                        <button type="submit">OK</button>
-                    </div>
-                </form>
-            </div>
-
-
-            <div class="post resize2">
-                <img src="img/post1.jpg">
-                <form class="desc" action="editCaption" method="post">
-                    <div >
-                        <input type="text" name="caption" class="form-control" placeholder="caption">
-                        <button type="submit">OK</button>
-                    </div>
-                </form>
-            </div>
-
-
-
-            <div class="post resize2">
-                <img src="img/post2.jpg">
-                <form class="desc" action="editCaption" method="post">
-                    <div >
-                        <input type="text" name="caption" class="form-control" placeholder="caption">
-                        <button type="submit">OK</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        </form>
 
     </div>
-</div>
-
-</form>
-<script>
-    function Edit() {
-        document.getElementById("profpic").src = img/prof2.png;
-        document.getElementById("uname").innerHTML = "@nita";
-    }
-    function Done() {
-        window.location.href = "http://localhost:8080/userProf.jsp"
-    }
-
-</script>
+    <script src="assets1/js/jquery.min.js"></script>
+    <script src="assets1/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets1/js/Profile-Edit-Form.js"></script>
 </body>
+
+</html>
