@@ -24,11 +24,11 @@ public class FollowServlet extends HttpServlet {
         String id=request.getParameter("id");
         UserDAO dao=new UserDAO();
         dao.follow(uid,Integer.parseInt(String.valueOf(id)));
-
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
         response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
         response.setDateHeader("Expires", 0);
-        request.getRequestDispatcher("userProf.jsp").forward(request,response);
+        request.getRequestDispatcher("otherUser.jsp?id="+id).forward(request,response);
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
